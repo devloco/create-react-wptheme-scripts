@@ -1,30 +1,18 @@
 {
-  "name": "@devloco/react-scripts-wptheme",
-  "version": "3.0.1-wptheme-2.9.0",
-  "description": "Configuration and scripts for Create React WP Theme.",
-  "repository": "devloco/create-react-wptheme",
-  "author": "devloco",
+  "name": "react-scripts",
+  "version": "3.0.1",
+  "description": "Configuration and scripts for Create React App.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/create-react-app.git",
+    "directory": "packages/react-scripts"
+  },
   "license": "MIT",
-  "keywords": [
-    "wordpress",
-    "create-react-app",
-    "wordpress-theme",
-    "wordpress-development",
-    "wordpress-starter-theme",
-    "wordpress-api",
-    "reactjs",
-    "react",
-    "react-theme",
-    "wordpress-server",
-    "react-tutorial",
-    "react-wordpress-themes",
-    "php"
-  ],
   "engines": {
     "node": ">=8.10"
   },
   "bugs": {
-    "url": "https://github.com/devloco/create-react-wptheme/issues"
+    "url": "https://github.com/facebook/create-react-app/issues"
   },
   "files": [
     "bin",
@@ -36,8 +24,7 @@
     "utils"
   ],
   "bin": {
-    "react-scripts": "./bin/react-scripts.js",
-    "wptheme-scripts": "./bin/wptheme-scripts.js"
+    "react-scripts": "./bin/react-scripts.js"
   },
   "types": "./lib/react-app.d.ts",
   "dependencies": {
@@ -92,9 +79,7 @@
     "webpack": "4.29.6",
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.0.4",
-    "workbox-webpack-plugin": "4.2.0",
-    "@devloco/react-scripts-wptheme-utils": "^1.4.2",
-    "@devloco/react-scripts-wptheme-error-overlay": "^1.4.3"
+    "workbox-webpack-plugin": "4.2.0"
   },
   "devDependencies": {
     "react": "^16.8.4",
