@@ -36,13 +36,11 @@ function printHostingInstructions(
 
     printStaticServerInstructions(buildFolder, useYarn);
   }
-  // wptheme remarked out - start
-  // console.log();
-  // console.log('Find out more about deployment here:');
-  // console.log();
-  // console.log(`  ${chalk.yellow('http://bit.ly/CRA-deploy')}`);
-  // console.log();
-  // wptheme remarked out - end
+  console.log();
+  console.log('Find out more about deployment here:');
+  console.log();
+  console.log(`  ${chalk.yellow('https://bit.ly/CRA-deploy')}`);
+  console.log();
 }
 
 function printBaseMessage(buildFolder, hostingLocation) {
@@ -68,12 +66,11 @@ function printBaseMessage(buildFolder, hostingLocation) {
     );
   }
   console.log();
-  //console.log(`The ${chalk.cyan(buildFolder)} folder is ready to be deployed.`); // wptheme remarked out
-  console.log(`Your theme is ready to be deployed.`); // wptheme added
+  console.log(`The ${chalk.cyan(buildFolder)} folder is ready to be deployed.`);
 }
 
 function printDeployInstructions(publicUrl, hasDeployScript, useYarn) {
-  console.log(`To publish it at ${chalk.green(publicUrl)}, run:`);
+  console.log(`To publish it at ${chalk.green(publicUrl)} , run:`);
   console.log();
 
   // If script deploy has been added to package.json, skip the instructions
