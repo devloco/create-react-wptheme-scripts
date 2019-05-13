@@ -51,7 +51,8 @@ const openBrowser = require('react-dev-utils/openBrowser');
 // wptheme - added section - start
 const paths = require('../config/paths-wptheme'); // wptheme - touched
 const configFactory = require('../config/webpack.config.wptheme');
-const config = configFactory('development');const appPackage = require(paths.appPackageJson);
+const config = configFactory('development');
+const appPackage = require(paths.appPackageJson);
 const wpThemeUserConfig = require('@devloco/react-scripts-wptheme-utils/getUserConfig')(
   paths,
   process.env.NODE_ENV
@@ -101,7 +102,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 //   console.log();
 // }
 
-// We require that you explictly set browsers and do not fall back to
+// We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');
 checkBrowsers(paths.appPath, isInteractive).then(() => {
@@ -122,8 +123,9 @@ function startWatch() {
     }
 
     let clientConfig = wpThemeUserConfig.injectWpThemeClient;
-    if(clientConfig) {
-      clientConfig.mode = clientConfig.mode === 'disable' ? clientConfig.mode : 'beforeToken';
+    if (clientConfig) {
+      clientConfig.mode =
+        clientConfig.mode === 'disable' ? clientConfig.mode : 'beforeToken';
       clientConfig.token = '</head>';
     }
 
@@ -222,14 +224,14 @@ function startWatch() {
     const devSocket = {
       warnings: warnings => {
         if (_wpThemeServer) {
-          _wpThemeServer.update(warnings, "warnings");
+          _wpThemeServer.update(warnings, 'warnings');
         }
       },
       errors: errors => {
         if (_wpThemeServer) {
-          _wpThemeServer.update(errors, "errors");
+          _wpThemeServer.update(errors, 'errors');
         }
-      }
+      },
     };
 
     // Create a webpack compiler that is configured with custom messages.
@@ -252,6 +254,19 @@ function startWatch() {
       if (isInteractive) {
         let buildCommand = useYarn ? 'yarn build' : 'npm run build';
         clearConsole();
+
+        // We used to support resolving modules according to `NODE_PATH`.
+        // This now has been deprecated in favor of jsconfig/tsconfig.json
+        // This lets you use absolute paths in imports inside large monorepos:
+        if (process.env.NODE_PATH) {
+          console.log(
+            chalk.yellow(
+              'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed in a future major release of create-react-app.'
+            )
+          );
+          console.log();
+        }
+
         console.log(stats.toString(webpackOutputFormat));
         console.log();
         console.log('Note that the development build is not optimized.');
@@ -261,7 +276,7 @@ function startWatch() {
         console.log();
       }
 
-      if (typeof stats.hasErrors === "function" && !stats.hasErrors()) {
+      if (typeof stats.hasErrors === 'function' && !stats.hasErrors()) {
         // Merge with the public folder
         copyPublicFolder(paths);
       }
