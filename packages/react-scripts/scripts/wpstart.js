@@ -125,8 +125,8 @@ function startWatch() {
     let clientConfig = wpThemeUserConfig.injectWpThemeClient;
     if (clientConfig) {
       clientConfig.mode =
-        clientConfig.mode === 'disable' ? clientConfig.mode : 'beforeToken';
-      clientConfig.token = '</head>';
+        clientConfig.mode === 'disable' ? clientConfig.mode : 'afterToken';
+      clientConfig.token = '<head>';
     }
 
     if (!clientConfig || clientConfig.mode === 'disable') {
