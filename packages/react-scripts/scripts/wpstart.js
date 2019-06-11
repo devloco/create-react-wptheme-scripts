@@ -62,6 +62,7 @@ const wpThemeFileFunctions = require('@devloco/react-scripts-wptheme-utils/fileF
 
 const copyPublicFolder = wpThemeFileFunctions.copyPublicFolder;
 const copyToThemeFolder = wpThemeFileFunctions.copyToThemeFolder;
+const deleteDeployFolder = wpThemeFileFunctions.deleteDeployFolder;
 const setupCopyToThemeFolder = wpThemeFileFunctions.setupCopyToThemeFolder;
 const writeDoNotEditFile = wpThemeFileFunctions.writeDoNotEditFile;
 
@@ -117,6 +118,9 @@ function startWatch() {
   // if you're in it, you don't end up in Trash
   fs.emptyDirSync(paths.appBuild);
   fs.emptyDirSync('../static');
+
+  // Going into Dev mode, so delete the deploy folder.
+  deleteDeployFolder(paths);
 
   const injectWpThemeClient = function(wpThemeServer) {
     if (!wpThemeUserConfig) {

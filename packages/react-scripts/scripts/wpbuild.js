@@ -54,6 +54,7 @@ const wpThemeFileFunctions = require('@devloco/react-scripts-wptheme-utils/fileF
 const copyPublicFolder = wpThemeFileFunctions.copyPublicFolder;
 const copyToThemeFolder = wpThemeFileFunctions.copyToThemeFolder;
 const cleanThemeFolder = wpThemeFileFunctions.cleanThemeFolder;
+const writeReadyToDeployFile = wpThemeFileFunctions.writeReadyToDeployFile;
 
 // These sizes are pretty large. We'll warn for bundles exceeding them.
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
@@ -83,7 +84,7 @@ checkBrowsers(paths.appPath, isInteractive)
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild);
     // clean the WP theme folder
-    cleanThemeFolder(true);
+    cleanThemeFolder(paths, true);
     // Merge with the public folder
     copyPublicFolder(paths);
     // Start the webpack build
@@ -226,7 +227,8 @@ function build(previousFileSizes) {
         warnings: messages.warnings,
       };
 
-      copyToThemeFolder(paths);
+      copyToThemeFolder(paths, true);
+      writeReadyToDeployFile(paths);
 
       return resolve(resolveArgs);
     });
