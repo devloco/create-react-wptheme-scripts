@@ -62,6 +62,28 @@ const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
 const isInteractive = process.stdout.isTTY;
 
+// wptheme -- added section
+// Make sure the PHP portion of setup has been done.
+if (wpThemePostInstallerInfo.postInstallerExists(paths)) {
+  const displayedCommand = useYarn ? 'yarn' : 'npm';
+  clearConsole();
+  console.error(chalk.red('\nTheme failed to compile...\n'));
+  console.log(
+    "You haven't yet completed the PHP portion of your new theme's setup."
+  );
+  console.log(
+    'You must: ' +
+      chalk.magenta(`${displayedCommand} ${useYarn ? '' : 'run '}start`)
+  );
+  console.log(
+    chalk.cyan(
+      'And follow those instructions to complete the PHP portion of the setup.'
+    )
+  );
+  console.log('Try building again after that is done.');
+  process.exit(0);
+}
+
 // Warn and crash if required files are missing
 if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
   process.exit(1);
@@ -156,27 +178,6 @@ function build(previousFileSizes) {
       )
     );
     console.log();
-  }
-
-  // print the post init instructions
-  if (wpThemePostInstallerInfo.postInstallerExists(paths)) {
-    const displayedCommand = useYarn ? 'yarn' : 'npm';
-    clearConsole();
-    console.error(chalk.red('\nTheme failed to compile...\n'));
-    console.log(
-      "You haven't yet completed the PHP portion of your new theme's setup."
-    );
-    console.log(
-      'You must: ' +
-        chalk.magenta(`${displayedCommand} ${useYarn ? '' : 'run '}start`)
-    );
-    console.log(
-      chalk.cyan(
-        'And follow those instructions to complete the PHP portion of the setup.'
-      )
-    );
-    console.log('Try building again after that is done.');
-    process.exit(0);
   }
 
   console.log('Creating an optimized production build...');
