@@ -1,6 +1,6 @@
 {
   "name": "@devloco/react-scripts-wptheme",
-  "version": "3.2.001",
+  "version": "3.2.002",
   "description": "Configuration and scripts for Create React WP Theme.",
   "repository": "devloco/create-react-wptheme",
   "author": "devloco",
@@ -94,8 +94,8 @@
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.1.1",
     "workbox-webpack-plugin": "4.3.1",
-    "@devloco/react-scripts-wptheme-utils": "^3.1.202",
-    "@devloco/react-scripts-wptheme-error-overlay": "^3.1.200"
+    "@devloco/react-scripts-wptheme-utils": "^3.2.001",
+    "@devloco/react-scripts-wptheme-error-overlay": "^6.0.301"
   },
   "devDependencies": {
     "react": "^16.8.4",
