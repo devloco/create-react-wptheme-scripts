@@ -17,7 +17,7 @@
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="<?php echo $TEMPLATE_PATH; ?>/manifest.json">
+    <link rel="manifest" href="<?php echo $TEMPLATE_PATH; ?>/manifest.json" />
     <!--
         If you're reading this from "view source" in your browser, it might not make sense as
         these tokens have already been evaluated and replaced, even in this remark blurb.
