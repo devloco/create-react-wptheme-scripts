@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Copyright (c) 2018-present, https://github.com/devloco
+ * Copyright (c) 2019-present, https://github.com/devloco
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.

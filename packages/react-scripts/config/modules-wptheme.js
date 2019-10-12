@@ -1,6 +1,6 @@
 // @remove-on-eject-begin
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) 2019-present, https://github.com/devloco
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,7 +10,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const paths = require('./paths');
+const paths = require('./paths-wptheme');
 const chalk = require('react-dev-utils/chalk');
 const resolve = require('resolve');
 
