@@ -1,6 +1,6 @@
 // @remove-on-eject-begin
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
+ * Copyright (c) 2019-present, https://github.com/devloco
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -221,6 +221,7 @@ function startWatch() {
 
     const appName = require(paths.appPackageJson).name;
     const useTypeScript = fs.existsSync(paths.appTsConfig);
+    const tscCompileOnError = process.env.TSC_COMPILE_ON_ERROR === 'true';
 
     const urls = {
       localUrlForTerminal: appPackage.browserLaunchTo,
@@ -247,6 +248,7 @@ function startWatch() {
       urls,
       useYarn,
       useTypeScript,
+      tscCompileOnError,
       webpack,
     });
 
