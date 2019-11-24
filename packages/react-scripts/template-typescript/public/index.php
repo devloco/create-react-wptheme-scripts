@@ -28,7 +28,7 @@
   }
 ?>
 
-Please restart the Nodejs watcher now...
+Now, back in your command prompt, rerun the "start" script again...
 
 <script>
   setTimeout(function() {

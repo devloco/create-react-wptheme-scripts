@@ -90,7 +90,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 }
 
 // Generate configuration
-const config = configFactory('production');
+const config = configFactory(process.env.NODE_ENV);
 
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.

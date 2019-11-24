@@ -290,7 +290,7 @@ function startWatch() {
 
       injectWpThemeClient(_wpThemeServer);
       copyToThemeFolder(paths);
-      writeDoNotEditFile();
+      writeDoNotEditFile(paths);
 
       if (_wpThemeServer) {
         _wpThemeServer.update(stats);
