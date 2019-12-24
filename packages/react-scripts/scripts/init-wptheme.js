@@ -18,7 +18,7 @@ const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
 const chalk = require('chalk');
-const shelljs = require('@devloco/react-scripts-wptheme-utils/shell-js');
+const shelljs = require('@devloco/create-react-wptheme-utils/shell-js');
 const spawn = require('react-dev-utils/crossSpawn');
 
 module.exports = function(
@@ -26,7 +26,7 @@ module.exports = function(
   appName,
   verbose,
   originalDirectory,
-  template,
+  templateName,
   readmeExists,
   useTypeScript,
   useYarn
