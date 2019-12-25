@@ -41,9 +41,9 @@ const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
 
-const FileWatcherPlugin = require('@devloco/react-scripts-wptheme-utils/fileWatcherPlugin');
+const FileWatcherPlugin = require('@devloco/create-react-wptheme-utils/fileWatcherPlugin');
 
-const wpThemeUserConfig = require('@devloco/react-scripts-wptheme-utils/getUserConfig')(
+const wpThemeUserConfig = require('@devloco/create-react-wptheme-utils/getUserConfig')(
   paths,
   process.env.NODE_ENV
 );

@@ -53,12 +53,12 @@ const paths = require('../config/paths-wptheme'); // wptheme - touched
 const configFactory = require('../config/webpack.config.wptheme');
 const config = configFactory('development');
 const appPackage = require(paths.appPackageJson);
-const wpThemeUserConfig = require('@devloco/react-scripts-wptheme-utils/getUserConfig')(
+const wpThemeUserConfig = require('@devloco/create-react-wptheme-utils/getUserConfig')(
   paths,
   process.env.NODE_ENV
 );
-const wpThemePostInstallerInfo = require('@devloco/react-scripts-wptheme-utils/postInstallerInfo');
-const wpThemeFileFunctions = require('@devloco/react-scripts-wptheme-utils/fileFunctions');
+const wpThemePostInstallerInfo = require('@devloco/create-react-wptheme-utils/postInstallerInfo');
+const wpThemeFileFunctions = require('@devloco/create-react-wptheme-utils/fileFunctions');
 
 const copyPublicFolder = wpThemeFileFunctions.copyPublicFolder;
 const copyToThemeFolder = wpThemeFileFunctions.copyToThemeFolder;
@@ -70,7 +70,7 @@ const _wpThemeServer =
   wpThemeUserConfig &&
   wpThemeUserConfig.wpThemeServer &&
   wpThemeUserConfig.wpThemeServer.enable === true
-    ? require('@devloco/react-scripts-wptheme-utils/wpThemeServer')
+    ? require('@devloco/create-react-wptheme-utils/wpThemeServer')
     : null;
 // wptheme - added section - end
 
