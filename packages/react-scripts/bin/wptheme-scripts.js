@@ -57,6 +57,6 @@ if (['wpbuild', 'wpstart'].includes(script)) {
   console.log('Unknown script "' + script + '".');
   // console.log('Perhaps you need to update react-scripts?');
   console.log(
-    "The original create-react-scripts commands are still available but must be prefixed with 'cra' (e.g. crastart, craeject, etc.)."
+    "The original create-react-app script commands are still available but must be prefixed with 'cra' (e.g. crastart, craeject, etc.)."
   );
 }

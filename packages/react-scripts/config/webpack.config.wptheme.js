@@ -29,12 +29,12 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const paths = require('./paths-wptheme'); // wptheme modified
 const modules = require('./modules-wptheme'); // wptheme modified
-const getClientEnvironment = require('./env');
+const getClientEnvironment = require('./env-wptheme'); // wptheme modified
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-const eslint = require('eslint');
 // @remove-on-eject-begin
+const eslint = require('eslint');
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 // @remove-on-eject-end
 const postcssNormalize = require('postcss-normalize');
@@ -514,11 +514,11 @@ module.exports = function(webpackEnv) {
                   ]
                 ),
                 // @remove-on-eject-end
-                // If an error happens in a package, it's possible to be
-                // because it was compiled. Thus, we don't want the browser
-                // debugger to show the original code. Instead, the code
-                // being evaluated would be much more helpful.
-                sourceMaps: false,
+                // Babel sourcemaps are needed for debugging into node_modules
+                // code.  Without the options below, debuggers like VSCode
+                // show incorrect code and set breakpoints on the wrong lines.
+                sourceMaps: shouldUseSourceMap,
+                inputSourceMap: shouldUseSourceMap,
               },
             },
             // "postcss" loader applies autoprefixer to our CSS.
@@ -548,8 +548,9 @@ module.exports = function(webpackEnv) {
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
-                modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
+                modules: {
+                  getLocalIdent: getCSSModuleLocalIdent,
+                },
               }),
             },
             // Opt-in support for SASS (using .scss or .sass extensions).
@@ -579,8 +580,9 @@ module.exports = function(webpackEnv) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
-                  modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent,
+                  modules: {
+                    getLocalIdent: getCSSModuleLocalIdent,
+                  },
                 },
                 'sass-loader'
               ),
