@@ -1,8 +1,12 @@
 {
   "name": "@devloco/react-scripts-wptheme",
-  "version": "3.3.0-wp.3",
+  "version": "3.3.0-wp.11",
   "description": "Configuration and scripts for Create React WP Theme.",
-  "repository": "devloco/create-react-wptheme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devloco/create-react-wptheme-scripts.git",
+    "directory": "packages/react-scripts"
+  },
   "author": "devloco",
   "license": "MIT",
   "keywords": [
@@ -30,10 +34,7 @@
     "bin",
     "config",
     "lib",
-    "scripts",
-    "template",
-    "template-typescript",
-    "utils"
+    "scripts"
   ],
   "bin": {
     "react-scripts": "./bin/react-scripts.js",

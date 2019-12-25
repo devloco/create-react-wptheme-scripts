@@ -24,6 +24,8 @@ const os = require('os');
 const verifyTypeScriptSetup = require('./utils/verifyTypeScriptSetup');
 const initWpTheme = require('./init-wptheme');
 
+let _readmeExists = false;
+
 function isInGitRepository() {
   try {
     execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
@@ -83,7 +85,7 @@ module.exports = function(
   originalDirectory,
   templateName
 ) {
-  const appPackage = require(path.join(appPath, 'package.json'));
+  let appPackage = require(path.join(appPath, 'package.json'));
   const useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
 
   if (!templateName) {
@@ -153,13 +155,25 @@ module.exports = function(
   // Setup the browsers list
   appPackage.browserslist = defaultBrowsers;
 
+  _readmeExists = fs.existsSync(path.join(appPath, 'README.md'));
+
+  appPackage = initWpTheme.fnUpdateAppPackage(
+    appPackage,
+    appPath,
+    appName,
+    verbose,
+    originalDirectory,
+    templateName,
+    _readmeExists,
+    useYarn
+  );
+
   fs.writeFileSync(
     path.join(appPath, 'package.json'),
     JSON.stringify(appPackage, null, 2) + os.EOL
   );
 
-  const readmeExists = fs.existsSync(path.join(appPath, 'README.md'));
-  if (readmeExists) {
+  if (_readmeExists) {
     fs.renameSync(
       path.join(appPath, 'README.md'),
       path.join(appPath, 'README.old.md')
@@ -252,11 +266,9 @@ module.exports = function(
     }
   }
 
-  let useTypeScript = false;
   if (args.find(arg => arg.includes('typescript'))) {
     console.log();
     verifyTypeScriptSetup();
-    useTypeScript = true;
   }
 
   // Remove template
@@ -277,16 +289,17 @@ module.exports = function(
   }
 
   // wptheme intercept -- stop the standard create-react-app init here... wptheme will take over and display the final message.
-  return initWpTheme(
+  initWpTheme.fnFinish(
+    appPackage,
     appPath,
     appName,
     verbose,
     originalDirectory,
     templateName,
-    readmeExists,
-    useTypeScript,
+    _readmeExists,
     useYarn
   );
+  return;
 
   // Display the most elegant way to cd.
   // This needs to handle an undefined originalDirectory for
@@ -330,7 +343,7 @@ module.exports = function(
   console.log();
   console.log(chalk.cyan('  cd'), cdpath);
   console.log(`  ${chalk.cyan(`${displayedCommand} start`)}`);
-  if (readmeExists) {
+  if (_readmeExists) {
     console.log();
     console.log(
       chalk.yellow(

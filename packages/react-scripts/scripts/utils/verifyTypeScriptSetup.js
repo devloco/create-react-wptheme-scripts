@@ -12,7 +12,7 @@ const chalk = require('react-dev-utils/chalk');
 const fs = require('fs');
 const resolve = require('resolve');
 const path = require('path');
-const paths = require('../../config/paths');
+const paths = require('../../config/paths-wptheme');
 const os = require('os');
 const immer = require('react-dev-utils/immer').produce;
 const globby = require('react-dev-utils/globby').sync;
@@ -252,11 +252,11 @@ function verifyTypeScriptSetup() {
     writeJson(paths.appTsConfig, appTsConfig);
   }
 
-  // Reference `react-scripts` types
+  // Reference `@devloco/react-scripts-wptheme` types
   if (!fs.existsSync(paths.appTypeDeclarations)) {
     fs.writeFileSync(
       paths.appTypeDeclarations,
-      `/// <reference types="react-scripts" />${os.EOL}`
+      `/// <reference types="@devloco/react-scripts-wptheme" />${os.EOL}`
     );
   }
 }
