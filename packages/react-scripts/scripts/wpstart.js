@@ -44,35 +44,9 @@ const {
   prepareUrls,
 } = require('react-dev-utils/WebpackDevServerUtils');
 const openBrowser = require('react-dev-utils/openBrowser');
-//const paths = require('../config/paths'); // wptheme - remarked out
-//const configFactory = require('../config/webpack.config'); // wptheme - remarked out
-//const createDevServerConfig = require('../config/webpackDevServer.config'); // wptheme - remarked out
-
-// wptheme - added section - start
 const paths = require('../config/paths-wptheme'); // wptheme - touched
-const configFactory = require('../config/webpack.config.wptheme');
-const config = configFactory('development');
-const appPackage = require(paths.appPackageJson);
-const wpThemeUserConfig = require('@devloco/create-react-wptheme-utils/getUserConfig')(
-  paths,
-  process.env.NODE_ENV
-);
-const wpThemePostInstallerInfo = require('@devloco/create-react-wptheme-utils/postInstallerInfo');
-const wpThemeFileFunctions = require('@devloco/create-react-wptheme-utils/fileFunctions');
-
-const copyPublicFolder = wpThemeFileFunctions.copyPublicFolder;
-const copyToThemeFolder = wpThemeFileFunctions.copyToThemeFolder;
-const deleteDeployFolder = wpThemeFileFunctions.deleteDeployFolder;
-const setupCopyToThemeFolder = wpThemeFileFunctions.setupCopyToThemeFolder;
-const writeDoNotEditFile = wpThemeFileFunctions.writeDoNotEditFile;
-
-const _wpThemeServer =
-  wpThemeUserConfig &&
-  wpThemeUserConfig.wpThemeServer &&
-  wpThemeUserConfig.wpThemeServer.enable === true
-    ? require('@devloco/create-react-wptheme-utils/wpThemeServer')
-    : null;
-// wptheme - added section - end
+const configFactory = require('../config/webpack.config.wptheme'); // wptheme - touched
+//const createDevServerConfig = require('../config/webpackDevServer.config'); // wptheme - remarked out
 
 const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
@@ -102,6 +76,30 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 //   );
 //   console.log();
 // }
+
+// wptheme - added section - start
+const config = configFactory('development');
+const appPackage = require(paths.appPackageJson);
+const wpThemeUserConfig = require('@devloco/create-react-wptheme-utils/getUserConfig')(
+  paths,
+  process.env.NODE_ENV
+);
+const wpThemePostInstallerInfo = require('@devloco/create-react-wptheme-utils/postInstallerInfo');
+const wpThemeFileFunctions = require('@devloco/create-react-wptheme-utils/fileFunctions');
+
+const copyPublicFolder = wpThemeFileFunctions.copyPublicFolder;
+const copyToThemeFolder = wpThemeFileFunctions.copyToThemeFolder;
+const deleteDeployFolder = wpThemeFileFunctions.deleteDeployFolder;
+const setupCopyToThemeFolder = wpThemeFileFunctions.setupCopyToThemeFolder;
+const writeDoNotEditFile = wpThemeFileFunctions.writeDoNotEditFile;
+
+const _wpThemeServer =
+  wpThemeUserConfig &&
+  wpThemeUserConfig.wpThemeServer &&
+  wpThemeUserConfig.wpThemeServer.enable === true
+    ? require('@devloco/create-react-wptheme-utils/wpThemeServer')
+    : null;
+// wptheme - added section - end
 
 // We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
