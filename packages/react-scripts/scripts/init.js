@@ -44,8 +44,7 @@ function isInMercurialRepository() {
   }
 }
 
-function tryGitInit(appPath) {
-  let didInit = false;
+function tryGitInit() {
   try {
     execSync('git --version', { stdio: 'ignore' });
     if (isInGitRepository() || isInMercurialRepository()) {
@@ -53,26 +52,33 @@ function tryGitInit(appPath) {
     }
 
     execSync('git init', { stdio: 'ignore' });
-    didInit = true;
+    return true;
+  } catch (e) {
+    console.warn('Git repo not initialized', e);
+    return false;
+  }
+}
 
+function tryGitCommit(appPath) {
+  try {
     execSync('git add -A', { stdio: 'ignore' });
-    execSync('git commit -m "Initial commit from Create React App"', {
+    execSync('git commit -m "Initialize project using Create React App"', {
       stdio: 'ignore',
     });
     return true;
   } catch (e) {
-    if (didInit) {
-      // If we successfully initialized but couldn't commit,
-      // maybe the commit author config is not set.
-      // In the future, we might supply our own committer
-      // like Ember CLI does, but for now, let's just
-      // remove the Git files to avoid a half-done state.
-      try {
-        // unlinkSync() doesn't work on directories.
-        fs.removeSync(path.join(appPath, '.git'));
-      } catch (removeErr) {
-        // Ignore.
-      }
+    // We couldn't commit in already initialized git repo,
+    // maybe the commit author config is not set.
+    // In the future, we might supply our own committer
+    // like Ember CLI does, but for now, let's just
+    // remove the Git files to avoid a half-done state.
+    console.warn('Git commit not created', e);
+    console.warn('Removing .git directory...');
+    try {
+      // unlinkSync() doesn't work on directories.
+      fs.removeSync(path.join(appPath, '.git'));
+    } catch (removeErr) {
+      // Ignore.
     }
     return false;
   }
@@ -121,11 +127,55 @@ module.exports = function(
     templateJson = require(templateJsonPath);
   }
 
+  const templatePackage = templateJson.package || {};
+
+  // Keys to ignore in templatePackage
+  const templatePackageBlacklist = [
+    'name',
+    'version',
+    'description',
+    'keywords',
+    'bugs',
+    'license',
+    'author',
+    'contributors',
+    'files',
+    'main',
+    'browser',
+    'bin',
+    'man',
+    'directories',
+    'repository',
+    'devDependencies',
+    'peerDependencies',
+    'bundledDependencies',
+    'optionalDependencies',
+    'engineStrict',
+    'os',
+    'cpu',
+    'preferGlobal',
+    'private',
+    'publishConfig',
+  ];
+
+  // Keys from templatePackage that will be merged with appPackage
+  const templatePackageToMerge = ['dependencies', 'scripts'];
+
+  // Keys from templatePackage that will be added to appPackage,
+  // replacing any existing entries.
+  const templatePackageToReplace = Object.keys(templatePackage).filter(key => {
+    return (
+      !templatePackageBlacklist.includes(key) &&
+      !templatePackageToMerge.includes(key)
+    );
+  });
+
   // Copy over some of the devDependencies
   appPackage.dependencies = appPackage.dependencies || {};
 
   // Setup the script rules
-  const templateScripts = templateJson.scripts || {};
+  // TODO: deprecate 'scripts' key directly on templateJson
+  const templateScripts = templatePackage.scripts || templateJson.scripts || {};
   appPackage.scripts = Object.assign(
     {
       start: 'react-scripts start',
@@ -155,6 +205,11 @@ module.exports = function(
   // Setup the browsers list
   appPackage.browserslist = defaultBrowsers;
 
+  // Add templatePackage keys/values to appPackage, replacing existing entries
+  templatePackageToReplace.forEach(key => {
+    appPackage[key] = templatePackage[key];
+  });
+
   _readmeExists = fs.existsSync(path.join(appPath, 'README.md'));
 
   appPackage = initWpTheme.fnUpdateAppPackage(
@@ -173,6 +228,7 @@ module.exports = function(
     JSON.stringify(appPackage, null, 2) + os.EOL
   );
 
+  // const readmeExists = fs.existsSync(path.join(appPath, 'README.md'));
   if (_readmeExists) {
     fs.renameSync(
       path.join(appPath, 'README.md'),
@@ -221,6 +277,15 @@ module.exports = function(
     );
   }
 
+  // Initialize git repo
+  let initializedGit = false;
+
+  if (tryGitInit()) {
+    initializedGit = true;
+    console.log();
+    console.log('Initialized a git repository.');
+  }
+
   let command;
   let remove;
   let args;
@@ -236,7 +301,9 @@ module.exports = function(
   }
 
   // Install additional template dependencies, if present
-  const templateDependencies = templateJson.dependencies;
+  // TODO: deprecate 'dependencies' key directly on templateJson
+  const templateDependencies =
+    templatePackage.dependencies || templateJson.dependencies;
   if (templateDependencies) {
     args = args.concat(
       Object.keys(templateDependencies).map(key => {
@@ -280,9 +347,10 @@ module.exports = function(
     return;
   }
 
-  if (tryGitInit(appPath)) {
+  // Create git commit if git repo was initialized
+  if (initializedGit && tryGitCommit(appPath)) {
     console.log();
-    console.log('Initialized a git repository.');
+    console.log('Created git commit.');
   }
 
   // wptheme intercept -- stop the standard create-react-app init here... wptheme will take over and display the final message.
