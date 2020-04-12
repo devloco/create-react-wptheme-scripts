@@ -10,12 +10,12 @@
 
 const path = require('path');
 const fs = require('fs');
-const getPublicUrlOrPath = require('@devloco/create-react-wptheme-utils/getPublicUrlOrPath');
+const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd());
-const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
+const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -45,7 +45,7 @@ const moduleFileExtensions = [
 
 // Resolve file paths in the same order as webpack
 const resolveModule = (resolveFn, filePath) => {
-  const extension = moduleFileExtensions.find(extension =>
+  const extension = moduleFileExtensions.find((extension) =>
     fs.existsSync(resolveFn(`${filePath}.${extension}`))
   );
 
@@ -76,7 +76,8 @@ module.exports = {
 };
 
 // @remove-on-eject-begin
-const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
+const resolveOwn = (relativePath) =>
+  path.resolve(__dirname, '..', relativePath);
 
 // config before eject: we're in ./node_modules/react-scripts/config/
 module.exports = {
@@ -140,3 +141,21 @@ if (
 // @remove-on-eject-end
 
 module.exports.moduleFileExtensions = moduleFileExtensions;
+
+// wptheme Issue 45
+const getWPThemeUserConfig = require('@devloco/create-react-wptheme-utils/getUserConfig');
+const wpThemeUserConfig = getWPThemeUserConfig(
+  module.exports,
+  process.env.NODE_ENV
+);
+
+const wpThemeHomepage =
+  process.env.PUBLIC_URL || // default to the create-react-app setting
+  wpThemeUserConfig.homepage || // For wptheme... only the PROD wpThemeUserConfig object has a "homepage" member, so this works...
+  require(resolveApp('package.json')).homepage; // For wptheme... dev builds use this as the "homepage"
+
+module.exports.publicUrlOrPath = getPublicUrlOrPath(
+  /*isEnvDevelopment*/ false, // wptheme always uses PROD paths.
+  wpThemeHomepage,
+  process.env.PUBLIC_URL
+);
