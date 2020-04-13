@@ -156,5 +156,5 @@ const wpThemePathsHomepage = process.env.PUBLIC_URL || wpThemeConfigHomepage; //
 module.exports.publicUrlOrPath = getPublicUrlOrPath(
   /*isEnvDevelopment*/ false, // wptheme always uses PROD paths.
   wpThemePathsHomepage,
-  process.env.PUBLIC_URL
+  wpThemePathsHomepage
 );
