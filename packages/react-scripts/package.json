@@ -1,6 +1,6 @@
 {
   "name": "@devloco/react-scripts-wptheme",
-  "version": "3.4.0-wp.2",
+  "version": "3.4.0-wp.9",
   "description": "Configuration and scripts for Create React WP Theme.",
   "repository": {
     "type": "git",
@@ -94,7 +94,7 @@
     "webpack-dev-server": "3.10.2",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1",
-    "@devloco/create-react-wptheme-utils": "^3.4.0-wp.2"
+    "@devloco/create-react-wptheme-utils": "^3.4.0-wp.11"
   },
   "devDependencies": {
     "react": "^16.12.0",

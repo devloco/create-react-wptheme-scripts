@@ -143,19 +143,18 @@ if (
 module.exports.moduleFileExtensions = moduleFileExtensions;
 
 // wptheme Issue 45
-const getWPThemeUserConfig = require('@devloco/create-react-wptheme-utils/getUserConfig');
-const wpThemeUserConfig = getWPThemeUserConfig(
-  module.exports,
-  process.env.NODE_ENV
-);
+const getUserConfig = require('@devloco/create-react-wptheme-utils/getUserConfig');
+const wpThemeUserConfig = getUserConfig(module.exports, process.env.NODE_ENV);
 
-const wpThemeHomepage =
-  process.env.PUBLIC_URL || // default to the create-react-app setting
-  wpThemeUserConfig.homepage || // For wptheme... only the PROD wpThemeUserConfig object has a "homepage" member, so this works...
-  require(resolveApp('package.json')).homepage; // For wptheme... dev builds use this as the "homepage"
+// wptheme Issue 45; only the PROD wpThemeUserConfig object has a "homepage" member, so this works...
+const wpThemeConfigHomepage =
+  (wpThemeUserConfig && wpThemeUserConfig.homepage) ||
+  require(resolveApp('package.json')).homepage; // ... else use the one from the package.json file.
+
+const wpThemePathsHomepage = process.env.PUBLIC_URL || wpThemeConfigHomepage; // default to the create-react-app setting
 
 module.exports.publicUrlOrPath = getPublicUrlOrPath(
   /*isEnvDevelopment*/ false, // wptheme always uses PROD paths.
-  wpThemeHomepage,
+  wpThemePathsHomepage,
   process.env.PUBLIC_URL
 );
