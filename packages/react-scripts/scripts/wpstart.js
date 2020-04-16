@@ -15,7 +15,7 @@ process.env.NODE_ENV = 'development';
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
-process.on('unhandledRejection', err => {
+process.on('unhandledRejection', (err) => {
   throw err;
 });
 
@@ -120,7 +120,7 @@ function startWatch() {
   // Going into Dev mode, so delete the deploy folder.
   deleteDeployFolder(paths);
 
-  const injectWpThemeClient = function(wpThemeServer) {
+  const injectWpThemeClient = function (wpThemeServer) {
     if (!wpThemeUserConfig) {
       return;
     }
@@ -167,7 +167,7 @@ function startWatch() {
   };
 
   let doLaunchBrowser = true;
-  const launchBrowser = function() {
+  const launchBrowser = function () {
     openBrowser(appPackage.browserLaunchTo);
   };
 
@@ -226,12 +226,12 @@ function startWatch() {
     };
 
     const devSocket = {
-      warnings: warnings => {
+      warnings: (warnings) => {
         if (_wpThemeServer) {
           _wpThemeServer.update(warnings, 'warnings');
         }
       },
-      errors: errors => {
+      errors: (errors) => {
         if (_wpThemeServer) {
           _wpThemeServer.update(errors, 'errors');
         }
@@ -301,13 +301,22 @@ function startWatch() {
       doLaunchBrowser = false;
     });
 
-    ['SIGINT', 'SIGTERM'].forEach(function(sig) {
-      process.on(sig, function() {
+    ['SIGINT', 'SIGTERM'].forEach(function (sig) {
+      process.on(sig, function () {
         watcher.close();
         process.exit();
       });
     });
-  }).catch(err => {
+
+    if (isInteractive || process.env.CI !== 'true') {
+      // Gracefully exit when stdin ends
+      process.stdin.on('end', function () {
+        devServer.close();
+        process.exit();
+      });
+      process.stdin.resume();
+    }
+  }).catch((err) => {
     if (err && err.message) {
       console.log(err.message);
     }
